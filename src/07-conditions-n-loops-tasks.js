@@ -388,8 +388,17 @@ function isBracketsBalanced(str) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  if (num === 0) {
+    return '0';
+  }
+  let result = '';
+  let last = num;
+  while (last > 0) {
+    result = (last % n) + result;
+    last = Math.floor(last / n);
+  }
+  return result;
 }
 
 
@@ -434,8 +443,24 @@ function getCommonDirectoryPath(pathes) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const result = [];
+
+  for (let i = 0; i < m1.length; i += 1) {
+    result[i] = [];
+
+    for (let j = 0; j < m2[0].length; j += 1) {
+      let sum = 0;
+
+      for (let k = 0; k < m2.length; k += 1) {
+        sum += m1[i][k] * m2[k][j];
+      }
+
+      result[i][j] = sum;
+    }
+  }
+
+  return result;
 }
 
 
@@ -467,10 +492,48 @@ function getMatrixProduct(/* m1, m2 */) {
  *   [[    ,   ,    ],
  *    [    ,   ,    ],       =>  undefined
  *    [    ,   ,    ]]
- *
- */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+*
+*/
+function evaluateTicTacToePosition(position) {
+  const rows = [[], [], []];
+
+  const columns = [[], [], []];
+  position.forEach((item) => {
+    columns[0].push(item[0]);
+    columns[1].push(item[1]);
+    columns[2].push(item[2]);
+  });
+
+  position.forEach((item, index) => {
+    if (index === 0) {
+      rows[0].push(item[0]);
+      rows[0].push(item[1]);
+      rows[0].push(item[2]);
+    }
+    if (index === 1) {
+      rows[1].push(item[0]);
+      rows[1].push(item[1]);
+      rows[1].push(item[2]);
+    }
+    if (index === 2) {
+      rows[2].push(item[0]);
+      rows[2].push(item[1]);
+      rows[2].push(item[2]);
+    }
+  });
+
+  const diagonals = [
+    [position[0][0], position[1][1], position[2][2]],
+    [position[0][2], position[1][1], position[2][0]],
+  ];
+
+  const lines = [...rows, ...columns, ...diagonals];
+  let result;
+  lines.forEach((item) => {
+    if (item.every((value) => value === 'X')) result = 'X';
+    if (item.every((value) => value === '0')) result = '0';
+  });
+  return result;
 }
 
 
